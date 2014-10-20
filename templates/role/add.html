@@ -1,0 +1,99 @@
+<!-- content starts -->	
+	<div>
+		<ul class="breadcrumb">
+			<li>
+				<a href="#">系统管理</a> <span class="divider">/</span>
+			</li>
+			<li>
+				<a href="#">角色管理</a>
+			</li>
+		</ul>
+	</div>
+	
+	<form  method="post" action="{% url role_add %}" onsubmit="return validateCallback(this);">
+
+	<div class="row-fluid sortable">
+			<div class="box span12">
+				<div class="box-header well" data-original-title>
+					<h2><i class="icon-edit"></i> 配置角色信息</h2>
+					<div class="box-icon">
+						<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+					</div>
+				</div>
+				<div class="box-content">
+						<fieldset class="form-horizontal">
+						  <div class="control-group">
+							<label class="control-label">角色名称<span style="color:#f00">*</span></label>
+							<div class="controls">
+							  <input class="input-xlarge required" type="text" name="role_name"/>
+							</div>
+						  </div>
+						  
+						  <div class="control-group">
+							<label class="control-label">描述<span style="color:#f00">*</span></label>
+							<div class="controls">
+							  <input class="input-xlarge required" type="text" name="role_desc"/>
+							</div>
+						  </div>
+						</fieldset>
+				</div>
+			</div><!--/span-->
+		
+		</div><!--/row-->
+		
+		<div class="row-fluid sortable">
+			<div class="box span12">
+				<div class="box-header well" data-original-title>
+					<h2><i class="icon-edit"></i> 配置角色权限</h2>
+					<div class="box-icon">
+						<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+					</div>
+				</div>
+				<div class="box-content">
+					<table>
+						{% for key,plist in pdict.items %}
+							<tr>
+								<td colspan="2">
+									{% if not forloop.first %}
+										<br/>
+									{% endif %}
+									{{ key }}
+									<hr/>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+										<div class="controls">
+											{% for item in plist %}
+										  		<label class="checkbox inline">
+													<input type="checkbox" name="permission_id" value="{{ item.id }}"/>
+													{{ item.desc }}
+												</label>
+											{% endfor %}
+										</div>
+								</td>
+							</tr>
+						{% endfor %}
+					</table>
+				
+				</div>
+			</div><!--/span-->
+		
+		</div><!--/row-->
+		
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">保存</button>
+			<button class="btn" onclick ="return httpRedirectAjax('{% url role_index %}')">取消</button>
+	 	</div>
+		</form>
+		
+<!-- content ends -->
+
+<script language="JavaScript" type="text/javascript">
+//----------- start ---------------
+$(document).ready(function(){
+
+	 //校验
+	 $("form").validate();
+});
+</script>

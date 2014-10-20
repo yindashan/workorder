@@ -1,0 +1,173 @@
+<!-- content starts -->	
+	<!-- 工单和备注 -->
+	<div class="row-fluid sortable">
+			<div class="box span12">
+				<div class="box-header well" data-original-title>
+					<h2><i class="icon-list-alt"></i> 查看工单</h2>
+				</div>
+				<div class="box-content">
+					<!-- 工单id -->
+					<input type="hidden" value="{{ order.id }}" id="order_id"/>
+					<!-- 当前用户姓名 -->
+					<input type="hidden" value="{{ user.userprofile.realname }}" id="realname"/>
+					
+					<!-- 基本信息 -->
+					<table class="table table-striped table-bordered bootstrap-datatable datatable">
+						<tr>
+							<td class="bold_std">工单号</td>
+							<td>{{ order.case_number }}</td>
+							<td class="bold_std">创建时间</td>
+							<td>{{ order.create_time|date:"Y-m-d H:i" }}</td>
+						</tr>
+						<tr>
+							<td class="bold_std">用户姓名</td>
+							<td>{{ order.realname }}</td>
+							<td class="bold_std">部门</td>
+							<td>{{ order.department }}</td>
+						</tr>
+						<tr>
+							<td class="bold_std">电话</td>
+							<td>{{ order.phone }}</td>
+							<td class="bold_std">邮件地址</td>
+							<td>{{ order.email }}</td>
+						</tr>
+						<tr>
+							<td class="bold_std">所属区域</td>
+							<td>{{ order.area.name }}</td>
+							<td class="bold_std">工位</td>
+							<td>{{ order.workseat }}</td>
+						</tr>
+						<tr>
+							<td class="bold_std">优先级</td>
+							<td>
+								{% ifequal order.priority_level 1 %}
+									<span class="label label-important">
+								{% endifequal %}
+								
+								{% for key,value in priority_dict.items %}
+									{% ifequal order.priority_level key %}
+											{{ value }}
+									{% endifequal %}
+								{% endfor %}
+								
+								{% ifequal order.priority_level 1 %}
+									</span>
+								{% endifequal %}
+							</td>
+							<td class="bold_std">问题类目</td>
+							<td>{{ problem_type }}</td>
+						</tr>
+						<tr>
+							<td class="bold_std">当前处理人</td>
+							<td>{{ order.dealer_realname }}</td>
+							<td class="bold_std"></td>
+							<td></td>
+						</tr>
+					</table>
+					
+					<fieldset class="form-horizontal">
+						<!-- 问题描述 -->
+						<div class="control-group">
+							<label class="control-label">问题描述</label>
+							<div class="controls">
+								<textarea class="textarea_std" readonly>{{ order.problem_desc }}</textarea>
+							</div>
+						</div>
+						<!-- 问题备注 -->
+						{% if remark_list %}
+							<div class="control-group">
+								<label class="control-label">备注</label>
+								<div class="controls">
+									{% for item in remark_list %}
+										<div>
+											<h6>{{ item.realname}} {{ item.create_time|date:"Y-m-d H:i"}}</h6>
+											<div style="width:600px;margin-bottom:10px">{{item.comment}}</div>
+										</div>
+									{% endfor %}
+								</div>
+							</div>
+						{% endif %}
+						<!-- 对于已评价的工单 -->
+						{% ifequal order.status 5 %}
+							<div class="control-group">
+								<label class="control-label">评价</label>
+								<div class="controls">
+									<div id="star"></div>
+									<input id="star_hide" type="hidden" value="{{ order.feedback_rate }}"/>
+								</div>
+							</div>
+							{% if order.feedback_comment %}
+								<div class="control-group">
+									<label class="control-label">评价备注</label>
+									<div class="controls" id="comment_div">
+										<textarea class="textarea_std" readonly>{{ order.feedback_comment }}</textarea>
+									</div>
+								</div>
+							{% endif %}
+						{% endifequal %}
+						<div class="form-actions">
+							<button type="button" class="btn btn-primary" onclick ="return backHistoryURL()">返回</button>
+						</div>
+					</fieldset>
+				
+				</div>
+			</div><!--/span-->
+		
+	</div><!--/row-->
+	
+	<!-- 流转记录 -->
+	<div class="row-fluid sortable">
+			<div class="box span12">
+				<div class="box-header well" data-original-title>
+					<h2><i class="icon-list"></i> 流转记录</h2>
+					<div class="box-icon">
+						<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+						<a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+					</div>
+				</div>
+				<div class="box-content">
+				
+					<table class="table table-striped table-bordered bootstrap-datatable datatable">
+						<thead>
+							<tr>
+								<th>流转时间</th>
+								<th>来源</th>
+								<th>目标</th>
+								<th>动作</th>
+							</tr>
+						</thead>   
+						<tbody>
+							{% for item in wander_list %}
+							<tr>
+								<td>{{ item.create_time|date:"Y-m-d H:i" }}</td>
+								<td>{{ item.source_name }}</td>
+								<td>{{ item.target_name }}</td>
+								<td>
+								{% for key,value in wander_action_dict.items %}
+									{% ifequal item.operation key %}
+											{{ value }}
+									{% endifequal %}
+								{% endfor %}
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					
+				</div>
+			</div><!--/span-->
+		
+	</div><!--/row-->
+<!-- content ends -->
+
+<script language="JavaScript" type="text/javascript">
+//----------- start ---------------
+$(document).ready(function(){
+	var score = parseInt($("#star_hide").val());
+	$('#star').raty({
+  		path:'/static/charisma/img',
+  		readOnly: true,
+  		score: score
+	});
+});
+</script>

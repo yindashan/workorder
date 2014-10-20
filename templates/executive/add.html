@@ -1,0 +1,146 @@
+<!-- content starts -->	
+	<div>
+		<ul class="breadcrumb">
+			<li>
+				<a href="#">配置管理</a> <span class="divider">/</span>
+			</li>
+			<li>
+				<a href="#">高管名单</a>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="row-fluid sortable">
+			<div class="box span12">
+				<div class="box-header well" data-original-title>
+					<h2><i class="icon-edit"></i> 添加高管</h2>
+				</div>
+				<div class="box-content">
+					<form class="form-horizontal" method="post" action="{% url executive_add %}" onsubmit="return validateCallback(this);">
+						<fieldset>
+							<div class="control-group">
+								<label class="control-label">姓名</label>
+								<div class="controls">
+									<input class="input-large required" type="text" name="realname" id="realname" readonly/>
+									<input type="hidden" name="accountname" id="accountname"/>
+									<input type="hidden" name="email" id="email"/>
+									<button class="btn btn-small btn-primary" type="button" id="add_staff"> 从LDAP获取</button>
+								</div>
+							</div>
+							
+							<div class="control-group">
+								<label class="control-label">部门</label>
+								<div class="controls">
+									<input class="input-large required" type="text" name="department" id="department"/>
+								</div>
+							</div>
+							
+							<div class="control-group">
+								<label class="control-label">职位</label>
+								<div class="controls">
+									<input class="input-large required" type="text" name="job"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">第一工程师所属区域</label>
+								<div class="controls">
+									<select id="area_id_first">
+								      {% for item in area_list %}
+								      	 <option value ="{{ item.id }}">{{ item.name }}</option>
+									  {% endfor%}
+									</select>
+								</div>
+							</div>
+							
+							<div class="control-group">
+								<label class="control-label">第一服务工程师</label>
+								<div class="controls">
+									<select name="first_engineer_id" id="first_engineer_id">
+									</select>
+								</div>
+							</div>
+							
+							<div class="control-group">
+								<label class="control-label">第二工程师所属区域</label>
+								<div class="controls">
+									<select id="area_id_second">
+								      {% for item in area_list %}
+								      	 <option value ="{{ item.id }}">{{ item.name }}</option>
+									  {% endfor%}
+									</select>
+								</div>
+							</div>
+							
+							<div class="control-group">
+								<label class="control-label">第二服务工程师</label>
+								<div class="controls">
+									<select name="second_engineer_id" id="second_engineer_id">
+									</select>
+								</div>
+							</div>
+							
+							<div class="form-actions">
+								<button type="submit" class="btn btn-primary">保存</button>
+								<button class="btn" onclick ="return httpRedirectAjax('{% url executive_index %}')">取消</button>
+							</div>
+						</fieldset>
+					  </form>
+				
+				</div>
+			</div><!--/span-->
+		
+		</div><!--/row-->
+<!-- content ends -->
+
+<script language="JavaScript" type="text/javascript">
+//----------- start ---------------
+$(document).ready(function(){
+	 //校验
+	 $("form").validate();
+	 // 点击从LDAP获取按钮
+	 $("#add_staff").click(function(){
+	 	$('#staff_div').modal({show:true,backdrop:'static'});
+	 });
+	 // 关闭员工搜索面板
+	 $("button.staff_cancel").click(close_staff_div); 
+	 // 触发搜索
+	 $("#search_btn").click(staff_search);
+	 //按下回车触发搜索
+	 $(document).keyup(function(e){
+        var key =  e.which;
+        if(key == 13){
+			$("#search_btn").click();
+        }
+	 });
+	 $("#area_id_first").change(function(){
+	 	var area_id = parseInt($("#area_id_first").val());
+		var url = "/staff/search";
+		var data = {'area_id':area_id}
+	        jQuery.ajax({
+			type: 'GET',
+			url: url,
+			data: data,
+			success: area_staff_success_first,
+			error: error,
+			dataType: 'json',
+			async:false
+		});
+	 });
+	 $("#area_id_second").change(function(){
+	 	var area_id = parseInt($("#area_id_second").val());
+		var url = "/staff/search";
+		var data = {'area_id':area_id}
+	        jQuery.ajax({
+			type: 'GET',
+			url: url,
+			data: data,
+			success: area_staff_success_second,
+			error: error,
+			dataType: 'json',
+			async:false
+		});
+	 });
+	 $("#area_id_first").change();
+	 $("#area_id_second").change();
+});
+</script>

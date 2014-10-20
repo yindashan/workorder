@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<!-- 加入对静态文件路径的支持 -->
+	{% load static %}
+	
+	<title>IT工单系统</title>
+	<!-- The styles -->
+	<link id="bs-css" href="{% get_static_prefix %}charisma/css/bootstrap-cerulean.css" rel="stylesheet">
+	<style type="text/css">	 
+	  body {
+		padding-bottom: 40px;
+	  }
+	  .sidebar-nav {
+		padding: 9px 0;
+	  }
+	</style>
+	<link href="{% get_static_prefix %}charisma/css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="{% get_static_prefix %}charisma/css/charisma-app.css" rel="stylesheet">
+	<link href="{% get_static_prefix %}charisma/css/jquery-ui-1.8.21.custom.css" rel="stylesheet">
+	<link href='{% get_static_prefix %}charisma/css/fullcalendar.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/fullcalendar.print.css' rel='stylesheet'  media='print'>
+	<link href='{% get_static_prefix %}charisma/css/chosen.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/uniform.default.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/colorbox.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/jquery.cleditor.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/jquery.noty.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/noty_theme_default.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/elfinder.min.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/elfinder.theme.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/jquery.iphone.toggle.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/opa-icons.css' rel='stylesheet'>
+	<link href='{% get_static_prefix %}charisma/css/uploadify.css' rel='stylesheet'>
+	
+	<!-- easy UI -->
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/easyui/default/easyui.css"/> 
+	<!-- 
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/easyui/icon.css"/> 
+	-->
+	<!-- our own code -->
+	<link href='{% get_static_prefix %}css/other.css' rel='stylesheet'>
+	
+
+	
+	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- The fav icon -->
+	<link rel="shortcut icon" href="{% get_static_prefix %}charisma/img/favicon.ico">
+		
+</head>
+
+<body>
+		<!-- topbar starts -->
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="{% url common_index %}"> <img alt="Charisma Logo" src="{% get_static_prefix %}charisma/img/logo20.png" /> <span>IT工单系统</span></a>
+				
+				<!-- theme selector starts -->
+				<div class="btn-group pull-right theme-container"  style="display:none;">
+					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+						<i class="icon-tint"></i><span class="hidden-phone"> Change Theme / Skin</span>
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu" id="themes">
+						<li><a data-value="classic" href="#"><i class="icon-blank"></i> Classic</a></li>
+						<li><a data-value="cerulean" href="#"><i class="icon-blank"></i> Cerulean</a></li>
+						<li><a data-value="cyborg" href="#"><i class="icon-blank"></i> Cyborg</a></li>
+						<li><a data-value="redy" href="#"><i class="icon-blank"></i> Redy</a></li>
+						<li><a data-value="journal" href="#"><i class="icon-blank"></i> Journal</a></li>
+						<li><a data-value="simplex" href="#"><i class="icon-blank"></i> Simplex</a></li>
+						<li><a data-value="slate" href="#"><i class="icon-blank"></i> Slate</a></li>
+						<li><a data-value="spacelab" href="#"><i class="icon-blank"></i> Spacelab</a></li>
+						<li><a data-value="united" href="#"><i class="icon-blank"></i> United</a></li>
+					</ul>
+				</div>
+				<!-- theme selector ends -->
+				
+				<!-- user dropdown starts -->
+				<div class="btn-group pull-right" >
+					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+						<i class="icon-user"></i><span class="hidden-phone">{{ user.username }}</span>
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<!--
+						<li><a href="#">Profile</a></li>
+						-->
+						<li><a href="#">{{ user.roles }}</a></li>
+						<li class="divider"></li>
+						<li><a href="{% url common_logout %}">Logout</a></li>
+					</ul>
+				</div>
+				<!-- user dropdown ends -->
+				
+				<div class="top-nav nav-collapse">
+					<ul class="nav switch_tabs">
+						<!--
+						<li><a href="{% url common_index %}"><span style="font-size:15px">系统管理&配置管理</span></a></li>
+						-->
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+	<!-- topbar ends -->
+		<div class="container-fluid">
+		<div class="row-fluid">
+				
+			<!-- left menu starts -->
+			<div class="span2 main-menu-span">
+				<div class="well nav-collapse sidebar-nav">
+					<ul class="nav nav-tabs nav-stacked main-menu">
+						<li class="nav-header hidden-tablet">我的工单</li>
+						<li><a class="ajax-link" href="{% url order_add %}" onclick="return executeMenu(this,true);"> <i class="icon-chevron-right"></i><span class="hidden-tablet"> 提交工单</span></a></li>
+						<li><a class="ajax-link" href="{% url order_in_hand %}" onclick="return executeMenu(this,true);"> <i class="icon-chevron-right"></i><span class="hidden-tablet"> 处理中的工单</span></a></li>
+						<li class="active"><a class="ajax-link" href="{% url order_customer_history %}" onclick="return executeMenu(this,true);"> <i class="icon-chevron-right"></i><span class="hidden-tablet"> 历史工单</span></a></li>
+						
+						{% if "workplace_manage" in auth_set %}
+							<li class="nav-header hidden-tablet">工作台</li>
+							{% if "deal_order" in auth_set %}
+								<li><a class="ajax-link" href="{% url order_pend %}" onclick="return executeMenu(this,true);"> <i class="icon-chevron-right"></i><span class="hidden-tablet"> 待处理的工单</span></a></li>
+								<li><a class="ajax-link" href="{% url order_engineer_complete %}" onclick="return executeMenu(this,true);"> <i class="icon-chevron-right"></i><span class="hidden-tablet"> 处理完成的工单</span></a></li>
+							{% endif %}
+							{% if "order_feedback" in auth_set %}
+								<li><a class="ajax-link" href="{% url order_appraise_index %}" onclick="return executeMenu(this,true);"> <i class="icon-chevron-right"></i><span class="hidden-tablet"> 满意度调查</span></a></li>
+							{% endif %}
+							{% if "order_manage" in auth_set %}
+								<li><a class="ajax-link" href="{% url order_index %}" onclick="return executeMenu(this,true);"> <i class="icon-chevron-right"></i><span class="hidden-tablet"> 工单管理</span></a></li>						
+							{% endif %}
+						{% endif %}
+						
+						{% if "config_manage" in auth_set %}
+							<li class="nav-header hidden-tablet">配置管理</li>
+							<li><a class="ajax-link" href="{% url problem_index %}" onclick="return executeMenu(this,true);"><i class="icon-chevron-right"></i><span class="hidden-tablet"> 问题类目</span></a></li>
+							<li><a class="ajax-link" href="{% url staff_index %}" onclick="return executeMenu(this,true);"><i class="icon-chevron-right"></i><span class="hidden-tablet"> IT员工管理</span></a></li>
+							<li><a class="ajax-link" href="{% url executive_index %}" onclick="return executeMenu(this,true);"><i class="icon-chevron-right"></i><span class="hidden-tablet"> 高管名单</span></a></li>
+							<li><a class="ajax-link" href="{% url area_index %}" onclick="return executeMenu(this,true);"><i class="icon-chevron-right"></i><span class="hidden-tablet"> 区域管理</span></a></li>		
+						{% endif %}
+						{% if "order_stat" in auth_set %}
+							<li class="nav-header hidden-tablet">统计报表</li>
+							<li><a class="ajax-link" href="{% url order_index %}" onclick="return executeMenu(this,true);" ctitle=''> <i class="icon-chevron-right"></i><span class="hidden-tablet"> 工单统计</span></a></li>						
+						{% endif %}
+						{% if "system_manage" in auth_set %}
+							<li class="nav-header hidden-tablet">系统管理</li>
+							{% if "user_manage" in auth_set %}
+								<li><a class="ajax-link" href="{% url account_index %}" onclick="return executeMenu(this,true);"> <i class="icon-chevron-right"></i><span class="hidden-tablet"> 用户管理</span></a></li>
+							{% endif %}
+							{% if "role_manage" in auth_set %}
+								<li><a class="ajax-link" href="{% url role_index %}" onclick="return executeMenu(this,true);"><i class="icon-chevron-right"></i><span class="hidden-tablet"> 角色管理</span></a></li>
+							{% endif %}
+							<li><a class="ajax-link" href="{% url log_index %}" onclick="return executeMenu(this,true);"><i class="icon-chevron-right"></i><span class="hidden-tablet"> 日志信息</span></a></li>
+						{% endif %}
+					</ul>
+				</div><!--/.well -->
+			</div><!--/span-->
+			<!-- left menu ends -->
+			
+			<noscript>
+				<div class="alert alert-block span10">
+					<h4 class="alert-heading">Warning!</h4>
+					<p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
+				</div>
+			</noscript>
+			
+			<div id="content" class="span10">
+			
+				<!-- content starts -->	
+					<!-- 已经评价过的工单不能再次评价 -->
+					{% ifequal order.status 5 %}
+						对应的工单已经评价过了，禁止重复评价!
+					
+					{% else %}
+						
+						<!-- 工单和备注 -->
+						<div class="row-fluid sortable">
+							<div class="box span12">
+								<div class="box-header well" data-original-title>
+									<h2><i class="icon-edit"></i> 工单评价</h2>
+								</div>
+								<div class="box-content">
+									<!-- 工单id -->
+									<input type="hidden" value="{{ order.id }}" id="order_id"/>
+									<!-- 当前用户姓名 -->
+									<input type="hidden" value="{{ user.userprofile.realname }}" id="realname"/>
+									
+									<!-- 基本信息 -->
+									<table class="table table-striped table-bordered bootstrap-datatable datatable">
+										<tr>
+											<td class="bold_std">创建时间</td>
+											<td>{{ order.create_time|date:"Y-m-d H:i" }}</td>
+											<td class="bold_std">当前处理人</td>
+											<td>{{ order.dealer_realname }}</td>
+										</tr>
+										<tr>
+											<td class="bold_std">用户姓名</td>
+											<td>{{ order.realname }}</td>
+											<td class="bold_std">部门</td>
+											<td>{{ order.department }}</td>
+										</tr>
+										<tr>
+											<td class="bold_std">电话</td>
+											<td>{{ order.phone }}</td>
+											<td class="bold_std">邮件地址</td>
+											<td>{{ order.email }}</td>
+										</tr>
+										<tr>
+											<td class="bold_std">所属区域</td>
+											<td>{{ order.area.name}}</td>
+											<td class="bold_std">工位</td>
+											<td>{{ order.workseat }}</td>
+										</tr>
+										<tr>
+											<td class="bold_std">优先级</td>
+											<td>
+												{% ifequal order.priority_level 1 %}
+													<span class="label label-important">
+												{% endifequal %}
+												
+												{% for key,value in priority_dict.items %}
+													{% ifequal order.priority_level key %}
+															{{ value }}
+													{% endifequal %}
+												{% endfor %}
+												
+												{% ifequal order.priority_level 1 %}
+													</span>
+												{% endifequal %}
+											</td>
+											<td class="bold_std">问题类目</td>
+											<td>{{ problem_type }}</td>
+										</tr>
+									</table>
+									
+									<form class="form-horizontal" method="post" action="{% url order_appraise order.id %}" onsubmit="return validateCallback(this);">
+										<fieldset>
+											<!-- 问题描述 -->
+											<div class="control-group">
+												<label class="control-label">问题描述</label>
+												<div class="controls">
+													<textarea class="textarea_std" readonly>{{ order.problem_desc }}</textarea>
+												</div>
+											</div>
+											
+											<div class="control-group">
+												<label class="control-label">评价</label>
+												<div class="controls">
+													<div id="star"></div>
+												</div>
+											</div>
+											
+											<div class="control-group">
+												<label class="control-label">备注</label>
+												<div class="controls">
+													<textarea class="textarea_std" name="feedback_comment"></textarea>
+												</div>
+											</div>
+											
+											<div class="form-actions">
+												<button type="submit" class="btn btn-small btn-primary">确定</button>
+												<button type="button" class="btn btn-small" onclick="return backHistoryURL()">取消</button>
+											</div>
+										</fieldset>
+									</form>
+								
+								</div>
+							</div><!--/span-->
+						</div><!--/row-->
+						
+						<!-- 流转记录 -->
+						<div class="row-fluid sortable">
+								<div class="box span12">
+									<div class="box-header well" data-original-title>
+										<h2><i class="icon-list"></i> 流转记录</h2>
+										<div class="box-icon">
+											<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+											<a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+										</div>
+									</div>
+									<div class="box-content">
+									
+										<table class="table table-striped table-bordered bootstrap-datatable datatable">
+											<thead>
+												<tr>
+													<th>流转时间</th>
+													<th>来源</th>
+													<th>目标</th>
+													<th>动作</th>
+												</tr>
+											</thead>   
+											<tbody>
+												{% for item in wander_list %}
+												<tr>
+													<td>{{ item.create_time|date:"Y-m-d H:i" }}</td>
+													<td>{{ item.source_name }}</td>
+													<td>{{ item.target_name }}</td>
+													<td>
+													{% for key,value in wander_action_dict.items %}
+														{% ifequal item.operation key %}
+																{{ value }}
+														{% endifequal %}
+													{% endfor %}
+													</td>
+												</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+										
+									</div>
+								</div><!--/span-->
+							
+						</div><!--/row-->
+					{% endifequal %}
+					
+				<!-- content ends -->
+			</div><!--/#content.span10-->
+				</div><!--/fluid-row-->
+				
+		<hr>
+		<!-- 配置节点的面板 node_div -->
+		<div class="modal hide fade" id="node_div">
+			<div class="modal-header">
+				<button type="button" class="close node_cancel">×</button>
+				<h3>配置节点</h3>
+			</div>
+			<div class="modal-body">
+				<fieldset class="form-horizontal">
+					<div class="control-group">
+						<label class="control-label">节点名称<span style="color:#f00">*</span></label>
+						<div class="controls">
+							<input class="input-xlarge required" type="text" id="curr_node"/>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" id="node_confirm">确定</button>
+				<button type="button" class="btn node_cancel">取消</button>
+			</div>
+		</div>
+		<!-- 从LDAP中选择员工 -->
+		<div class="modal hide fade" id="staff_div" style="width:300px">
+			<div class="modal-header">
+				<button type="button" class="close staff_cancel">×</button>
+				<h3>从LDAP中选择员工</h3>
+			</div>
+			<div class="modal-body">
+				<fieldset class="form-horizontal">
+					<div class="control-group">
+						<input type="text" class="input-large" id="keyword"/>&nbsp;&nbsp;<button id="search_btn" class="btn btn-small btn-primary">搜索</button>
+					</div>
+					<div id="result_div"></div>
+				</fieldset>
+			</div>
+		</div>
+		<footer>
+			<p class="pull-left">&copy; 2013 Autonavi 高德软件　运维技术部</p>
+			<p class="pull-right">Powered by: zhu.wei</p>
+			
+			<!-- 记录当前正在被操作的节点 -->
+			<input type="hidden" id="hide_id" value=""/>
+			<!-- 当前对树节点执行的动作 -->
+			<input type="hidden" id="hide_action" value=""/>
+			
+			<!-- 历史URL -->
+			<input type="hidden" id="hide_history_url" value="{% url order_customer_history %}" />
+			
+			<!--　右键菜单 -->
+			<div id="mm"  class="easyui-menu" style="width:120px;" >  
+				<div id="add" data-options="iconCls:'icon-plus'">创建子节点</div>
+				<div id="update" data-options="iconCls:'icon-edit'">编辑</div>
+				<div id="remove" data-options="iconCls:'icon-remove'">删除</div>
+				<div class="menu-sep"></div>
+				<div >退出</div>  
+			</div＞
+			
+		</footer>
+		
+	</div><!--/.fluid-container-->
+
+	<!-- external javascript
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+
+	<!-- jQuery -->
+	<script src="{% get_static_prefix %}js/jquery-1.8.2.min.js"></script>
+	<!-- jQuery UI -->
+	<script src="{% get_static_prefix %}js/jquery-ui/jquery-ui-1.10.3.min.js"></script>
+	<!-- transition / effect library -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-transition.js"></script>
+	<!-- alert enhancer library -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-alert.js"></script>
+	<!-- modal / dialog library -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-modal.js"></script>
+	<!-- custom dropdown library -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-dropdown.js"></script>
+	<!-- scrolspy library -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-scrollspy.js"></script>
+	<!-- library for creating tabs -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-tab.js"></script>
+	<!-- library for advanced tooltip -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-tooltip.js"></script>
+	<!-- popover effect library -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-popover.js"></script>
+	<!-- button enhancer library -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-button.js"></script>
+	<!-- accordion library (optional, not used in demo) -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-collapse.js"></script>
+	<!-- carousel slideshow library (optional, not used in demo) -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-carousel.js"></script>
+	<!-- autocomplete library -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-typeahead.js"></script>
+	<!-- tour library -->
+	<script src="{% get_static_prefix %}charisma/js/bootstrap-tour.js"></script>
+	<!-- library for cookie management -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.cookie.js"></script>
+	<!-- calander plugin -->
+	<!--
+	<script src='{% get_static_prefix %}charisma/js/fullcalendar.min.js'></script>
+	-->
+	<!-- data table plugin -->
+	<!--
+	<script src='{% get_static_prefix %}charisma/js/jquery.dataTables.js'></script>
+	-->
+
+	<!-- chart libraries start -->
+	<script src="{% get_static_prefix %}charisma/js/excanvas.min.js"></script>
+	<script src="{% get_static_prefix %}charisma/js/jquery.flot.min.js"></script>
+	<script src="{% get_static_prefix %}charisma/js/jquery.flot.pie.min.js"></script>
+	<script src="{% get_static_prefix %}charisma/js/jquery.flot.stack.js"></script>
+	<script src="{% get_static_prefix %}charisma/js/jquery.flot.resize.min.js"></script>
+	<!-- chart libraries end -->
+
+	<!-- select or dropdown enhancer -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.chosen.min.js"></script>
+	<!-- checkbox, radio, and file input styler -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.uniform.min.js"></script>
+	<!-- plugin for gallery image view -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.colorbox.min.js"></script>
+	<!-- rich text editor library -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.cleditor.min.js"></script>
+	<!-- notification plugin -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.noty.js"></script>
+	<!-- file manager library -->
+	<!--
+	<script src="{% get_static_prefix %}charisma/js/jquery.elfinder.min.js"></script>
+	-->
+	<!-- star rating plugin -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.raty.min.js"></script>
+	<!-- for iOS style toggle switch -->
+	<!--
+	<script src="{% get_static_prefix %}charisma/js/jquery.iphone.toggle.js"></script>
+	-->
+	<!-- autogrowing textarea plugin -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.autogrow-textarea.js"></script>
+	<!-- multiple file upload plugin -->
+	<!--
+	<script src="{% get_static_prefix %}charisma/js/jquery.uploadify-3.1.min.js"></script>
+	-->
+	<!-- history.js for cross-browser state change on ajax -->
+	<script src="{% get_static_prefix %}charisma/js/jquery.history.js"></script>
+	<!-- application script for Charisma demo -->
+	<script src="{% get_static_prefix %}charisma/js/charisma.js"></script>
+	
+	
+	<!-- easyui -->
+	<script type="text/javascript" src="{% get_static_prefix %}js/easyui/jquery.parser.js"></script>
+	<script type="text/javascript" src="{% get_static_prefix %}js/easyui/jquery.draggable.js"></script>
+	<script type="text/javascript" src="{% get_static_prefix %}js/easyui/jquery.tree.js"></script>
+	<script type="text/javascript" src="{% get_static_prefix %}js/easyui/jquery.menu.js"></script>
+
+
+	<!-- jquery 校验插件 -->
+	<script type="text/javascript" src="{% get_static_prefix %}js/jquery.validate.min.js"></script>
+	
+	
+	<!-- datetime box  扩展时间 -->
+    <script src="{% get_static_prefix %}js/datetimebox/bootstrap-datetimepicker.min.js" ></script>
+    
+	<!-- our own code -->
+	<script type="text/javascript" src="{% get_static_prefix %}js/tools/csrf.js" charset="utf-8"></script>   <!-- csrf token-->
+	<!-- 通用的 ajax 操作 -->
+	<script src="{% get_static_prefix %}js/common_ajax.js" charset="utf-8"></script>
+	<script type="text/javascript" src="{% get_static_prefix %}js/tools/validateExtend.js" charset="utf-8"></script> <!-- 扩展jquery validate-->
+	<script type="text/javascript" src="{% get_static_prefix %}js/tools/tree_extend.js" charset="utf-8"></script>   <!-- 扩展easyui tree-->
+    <script type="text/javascript" src="{% get_static_prefix %}js/op_tree.js" charset="utf-8"></script> <!-- 对问题类目树中节点进行操作 -->
+	<script type="text/javascript" src="{% get_static_prefix %}js/add_staff.js" charset="utf-8"></script> <!-- 从LDAP 中添加成员 -->
+	<script type="text/javascript" src="{% get_static_prefix %}js/tools/str_date.js" charset="utf-8"></script> <!-- 时间，字符串处理函数 -->
+	<script type="text/javascript" src="{% get_static_prefix %}js/deal_order.js" charset="utf-8"></script> <!-- 工单处理函数 -->
+	<script type="text/javascript" src="{% get_static_prefix %}js/tools/utility.js" charset="utf-8"></script> <!-- 工具类 -->
+	<script type="text/javascript" src="{% get_static_prefix %}js/flot_chart.js" charset="utf-8"></script> <!-- 画图 -->
+	<script type="text/javascript" src="{% get_static_prefix %}js/report_ajax.js" charset="utf-8"></script> <!-- 报表搜索 -->
+	<script language="JavaScript" type="text/javascript">
+		$(document).ready(function(){
+			if ( $.browser.msie ) { // if IE and version is greater 9
+			    if($.browser.version > 9)
+			    $('.modal').removeClass('fade');
+			}
+			
+			 // 关闭员工搜索面板
+			 $("button.staff_cancel").click(close_staff_div); 
+			 // 触发搜索
+			 $("#search_btn").click(staff_search);
+			 // 默认评级(五角星)
+ 			 $('#star').raty({
+ 		  		path:'/static/charisma/img',
+ 		  		score:5
+ 			 });
+			 
+		});
+	</script>
+</body>
+</html>

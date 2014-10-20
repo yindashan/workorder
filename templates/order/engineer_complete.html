@@ -1,0 +1,190 @@
+<!-- content starts -->	
+	<div>
+		<ul class="breadcrumb">
+			<li>
+				<a href="#">工作台</a> <span class="divider">/</span>
+			</li>
+			<li>
+				<a href="#">工单管理</a>
+			</li>
+		</ul>
+	</div>
+	<div class="row-fluid sortable">
+		<div class="box span12">
+			<div class="box-header well" data-original-title>
+				<h2><i class="icon-list"></i> 工单管理</h2>
+			</div>
+			<div class="box-content" id="box-content">
+				<form action="{% url order_search %}" id="search_form"  onsubmit="return searchCallback();">
+						<div class="row-fluid">
+							<div class="span4">
+								<div class="dataTables_filter">
+									<label>
+										工&nbsp;单&nbsp;号:&nbsp;&nbsp;
+										<input type="text" name="case_number"/>
+									</label>
+								</div>
+							</div>
+							<div class="span4">
+								<div class="dataTables_filter">
+									<label>
+										申&nbsp;报&nbsp;人:&nbsp;&nbsp;
+										<input type="text" name="realname"/>
+									</label>
+								</div>
+							</div>
+							<div class="span4">
+								<div class="dataTables_length">
+									<label>
+										处&nbsp;理&nbsp;人:&nbsp;&nbsp;
+										<input type="text" name="dealer_realname" value="{{ user.userprofile.realname }}" readonly/>
+									</label>
+								</div>
+							</div>
+						</div> <!-- row end -->
+						<div class="row-fluid">
+							<div class="span4">
+								<div class="dataTables_length">
+									<label>
+										优&nbsp;先&nbsp;级:&nbsp;&nbsp;
+										<select name="priority_level" style="width:250px">
+											<option value="">请选择</option>
+											{% for key,value in priority_dict.items %}
+								      	 		<option value ="{{ key }}">{{ value }}</option>
+									  		{% endfor%}
+										</select>
+									</label>
+								</div>
+							</div>
+							<div class="span4">
+								<div class="dataTables_filter">
+									<label>
+										开始时间:
+										<input type="text" name="start_time" class="datepicker" readonly/>
+									</label>
+								</div>
+							</div>
+							<div class="span4">
+								<div class="dataTables_filter">
+									<label>
+										结束时间:
+										<input type="text" name="end_time" class="datepicker" readonly/>
+									</label>
+								</div>
+							</div>
+						</div> <!-- row end -->
+						<div class="row-fluid">
+							<div class="span4">
+								<div class="dataTables_length">
+									<label>
+										问题类别:
+										<select id="first_level_problem" style="width:250px">
+											<option value="">请选择</option>
+											{% for item in first_level_problem_list %}
+								      	 		<option value ="{{ item.id }}">{{ item.text }}</option>
+									  		{% endfor%}
+										</select>
+									</label>
+								</div>
+							</div>
+							<div class="span4">
+								<div class="dataTables_length">
+									<label>
+										<select id="second_level_problem" style="width:250px">
+										</select>
+									</label>
+								</div>
+							</div>
+							<div class="span4">
+								<div class="dataTables_length">
+									<label>
+										<select name="third_level_problem" id="third_level_problem" style="width:250px">
+										</select>
+									</label>
+								</div>
+							</div>
+						</div> <!-- row end -->
+						<div class="row-fluid">
+							<div class="span4">
+								<div class="dataTables_length">
+									<label>
+										工单状态:
+										<select name="status" style="width:250px">
+							      	 		<option value ="3">已解决</option>
+							      	 		<option value ="5">已评价</option>
+										</select>
+									</label>
+								</div>
+							</div>
+							<div class="span4">
+								<div class="dataTables_length">
+									<label>
+										区&nbsp;&nbsp;&nbsp;&nbsp;域:&nbsp;&nbsp;&nbsp;&nbsp;
+										<select name="area_id" style="width:250px">
+											<option value="">请选择</option>
+											{% for item in area_list %}
+								      	 		<option value ="{{ item.id }}">{{ item.name }}</option>
+									  		{% endfor%}
+										</select>
+									</label>
+								</div>
+							</div>
+							<div class="span4">
+								<div class="dataTables_filter">
+									<button type="submit" class="btn btn-small btn-info" id="search_btn">检索</button>
+								</div>
+							</div>
+						</div> <!-- row end -->
+					</form>
+				
+			</div>
+		</div>
+	</div>	
+<!-- content ends -->
+
+<script language="JavaScript" type="text/javascript">
+
+//----------- start ---------------
+$(document).ready(function(){
+
+	 $("#first_level_problem").change(function(){
+	 	var parent_id = parseInt($("#first_level_problem").val());
+	 	if(!parent_id){
+	 		$("#second_level_problem").html("");
+	 		$("#third_level_problem").html("");
+	 		return;
+	 	}
+		var url = "/problem/search";
+		var data = {'parent_id':parent_id}
+	        jQuery.ajax({
+			type: 'GET',
+			url: url,
+			data: data,
+			success: second_level_load,
+			error: error,
+			dataType: 'json',
+			async:false
+		});
+		// 触发第二级的下拉列表change事件
+	 	$("#second_level_problem").change();
+	 });
+	 // 触发上面注册的函数
+	 $("#first_level_problem").change();
+	 $("#second_level_problem").change(function(){
+	 	var parent_id = parseInt($("#second_level_problem").val());
+		var url = "/problem/search";
+		var data = {'parent_id':parent_id}
+	        jQuery.ajax({
+			type: 'GET',
+			url: url,
+			data: data,
+			success: third_level_load,
+			error: error,
+			dataType: 'json',
+			async:false
+		});
+	 });
+	 // 触发一次搜索,很重要
+	 $("#search_btn").click();
+});
+</script>

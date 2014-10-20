@@ -1,0 +1,46 @@
+<!-- content starts -->	
+	<div>
+		<ul class="breadcrumb">
+			<li>
+				<a href="#">其他</a> <span class="divider">/</span>
+			</li>
+			<li>
+				<a href="#">IT总监绿色通道</a>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="row-fluid sortable">
+			<div class="box span12">
+				<div class="box-header well" data-original-title>
+					<h2><i class="icon-edit"></i> 添加反馈信息</h2>
+				</div>
+				<div class="box-content">
+					<form class="form-horizontal" method="post" action="{% url feedback_add %}" onsubmit="return validateCallback(this);">
+						<fieldset>					
+							<div class="control-group">
+								<label class="control-label">主题<span style="color:#f00">*</span></label>
+								<div class="controls">
+									<input class="input-large required" type="text" name="title"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">内容<span style="color:#f00">*</span></label>
+								<div class="controls">
+									<textarea class="textarea_std required content_1000" name="content"></textarea>
+									<span class="help-block">请在1000个字符内描述您的反馈信息</span>
+								</div>
+							</div>
+						  
+						  <div class="form-actions">
+							<button type="submit" class="btn btn-primary">保存</button>
+							<button class="btn" onclick ="return httpRedirectAjax('{% url feedback_index %}')">取消</button>
+						  </div>
+						</fieldset>
+					  </form>
+				
+				</div>
+			</div><!--/span-->
+		
+		</div><!--/row-->
+<!-- content ends -->

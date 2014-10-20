@@ -1,0 +1,88 @@
+<table class="table table-striped table-bordered bootstrap-datatable datatable">
+	<thead>
+		<tr>
+			<th>工单号</th>
+			{% if "field1_show" in auth_set %}
+				<th>来源</th>
+			{% endif %}
+			<th>区域</th>
+			<th>创建时间</th>
+			<th>问题类目</th>
+			<th>申报人</th>
+			<th>处理人</th>
+			<th>工单状态</th>
+			{% if "field1_show" in auth_set %}
+				<th>耗时</th>
+				<th>满意度</th>
+			{% endif %}
+			<th>操作</th>
+		</tr>
+	</thead>   
+	<tbody>
+		{% for item in order_list %}
+		<tr>
+			<td>
+				{% ifequal item.priority_level 1 %}
+					<span class="label label-important">
+				{% endifequal %}
+				{{ item.case_number }}
+				{% ifequal item.priority_level 1 %}
+					</span>
+				{% endifequal %}
+			</td>
+			{% if "field1_show" in auth_set %}
+				<td>
+					{{ item.source }}
+				</td>
+			{% endif %}
+			<td>
+				{{ item.area }}
+			</td>
+			<td>{{ item.create_time }}</td>
+			<td title="{{ item.problem_desc }}">{{ item.problem_type }}</td>
+			<td>{{ item.realname }}</td>
+			<td>{{ item.dealer_realname }}</td>
+			<td>{{ item.status }}</td>
+			{% if "field1_show" in auth_set %}
+				<td nowrap="nowrap">{{ item.consume_time_type }}</td>
+				<td>{{ item.feedback_rate }}</td>
+			{% endif %}
+			<td class="center" nowrap="nowrap">
+				<a class="btn btn-small btn-success" href="{% url order_watch item.id %}" onclick="return executeMenu(this);">
+						<i class="icon-zoom-in icon-white"></i>  
+						查看                                    
+				</a>
+				{% if item.can_deal %}
+					<a class="btn btn-small btn-primary" href="{% url order_deal item.id %}" onclick="return executeMenu(this);">
+						<i class="icon-edit icon-white"></i>  
+						处理                                    
+					</a>
+				{% endif %}
+				{% if item.can_appraise %}
+					<a class="btn btn-small btn-primary" href="{% url order_appraise item.id %}" onclick="return executeMenu(this);">
+						<i class="icon-edit  icon-white"></i>  
+						评价                                   
+					</a>
+				{% endif %}
+				
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+<!-- 展示记录数,上一页，下一页等等 -->
+<div class="row-fluid">
+	<div class="span12">
+		<div class="dataTables_info">显示从{{ order_list.start_index }}到{{ order_list.end_index }} 总共{{ order_list.paginator.count }}条记录</div>
+	</div>
+	<div class="span12 center">
+		<div class="dataTables_paginate paging_bootstrap pagination">
+			<ul currPage="{{ order_list.number }}" totalPage="{{ order_list.paginator.num_pages }}" >
+				<li class="prev"><a href="{% url order_search %}" onclick="return searchPageJump(this);">上一页</a></li>
+				<li><a href="#">{{ order_list.number }}</a></li>
+				<li class="next"><a href="{% url order_search %}" onclick="return searchPageJump(this);">下一页</a></li>
+			</ul>
+		</div>
+	</div>
+</div>

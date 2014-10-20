@@ -1,0 +1,188 @@
+<!-- content starts -->	
+	<div>
+		<ul class="breadcrumb">
+			<li>
+				<a href="#">我的工单</a> <span class="divider">/</span>
+			</li>
+			<li>
+				<a href="#">提交工单</a>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="row-fluid sortable">
+			<div class="box span12">
+				<div class="box-header well" data-original-title>
+					<h2><i class="icon-edit"></i> 提交工单</h2>
+				</div>
+				<div class="box-content">
+					<form class="form-horizontal" method="post" action="{% url order_add %}" onsubmit="return validateCallbackOrder(this);">
+						<fieldset>
+							<div class="control-group">
+								<label class="control-label">用户姓名</label>
+								<div class="controls">
+									<input class="input-large required" type="text" name="realname" value="{{ user.userprofile.realname }}" id="realname"/>
+									<input type="hidden" name="accountname" value="{{ user.username }}" id="accountname"/>
+									<!-- 申报人是否合法 -->
+									<input type="hidden" id="check_name" value="0"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">部门</label>
+								<div class="controls">
+									<input class="input-large required" type="text" name="department" value="{{ user.userprofile.department }}" id="department"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">邮件地址</label>
+								<div class="controls">
+									<input class="input-large required" type="text" name="email" value="{{ user.email }}" id="email"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">电话</label>
+								<div class="controls">
+									<input class="input-large required" type="text" name="phone" value="{{ user.userprofile.phone }}" id="phone"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">工位</label>
+								<div class="controls">
+									<input class="input-large" type="text" name="workseat"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">所属区域</label>
+								<div class="controls">
+									<select name="area_id" id="area_id">
+								      {% for item in area_list %}
+								      	 <option value ="{{ item.id }}">{{ item.name }}</option>
+									  {% endfor%}
+									</select>
+								</div>
+						    </div>
+						    <div class="control-group">
+								<label class="control-label">问题类目</label>
+								<div class="controls">
+									需授权软件安装
+									<input type="hidden" value="100" name="third_level_problem"/>
+								</div>
+						    </div>
+						    <div class="control-group">
+								<label class="control-label">问题描述</label>
+								<div class="controls">
+									<textarea class="textarea_std required" name="problem_desc">{{problem_desc}}</textarea>
+								</div>
+							</div>
+							{% if "distribute_order" in auth_set %}
+							<div class="control-group">
+								<label class="control-label">优先级</label>
+								<div class="controls">
+									<select name="priority_level" id="priority_level">
+								      {% for key,value in priority_dict.items %}
+								      	 <option value ="{{ key }}">{{ value }}</option>
+									  {% endfor%}
+									</select>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">指派给</label>
+								<div class="controls">
+									<select id="area_id_first">
+								      {% for item in area_list %}
+								      	 <option value ="{{ item.id }}">{{ item.name }}</option>
+									  {% endfor%}
+									</select>
+									<select name="deal_engineer_id" id="first_engineer_id">
+									</select>
+									<br/>
+									<br/>
+									<!-- 系统推荐　-->
+									<span id="recommend_engineer"></span>
+								</div>
+							</div>
+						  	{% endif %}
+						  	
+						  <div class="form-actions">
+							<button type="submit" class="btn btn-primary">提交</button>
+							<!--
+							<button type="button" class="btn" onclick ="return httpRedirectAjax('{% url staff_index %}')">取消</button>
+						  	-->
+						  </div>
+						</fieldset>
+					  </form>
+				
+				</div>
+			</div><!--/span-->
+		
+		</div><!--/row-->
+<!-- content ends -->
+
+<script language="JavaScript" type="text/javascript">
+
+//----------- start ---------------
+$(document).ready(function(){
+	// 默认优先级为普通
+	$("#priority_level").val(2);
+	
+	 $("#area_id_first").change(function(){
+	 	var area_id = parseInt($("#area_id_first").val());
+		var url = "/staff/search_with_load";
+		var data = {'area_id':area_id}
+	        jQuery.ajax({
+			type: 'GET',
+			url: url,
+			data: data,
+			success: area_staff_success_first,
+			error: error,
+			dataType: 'json',
+			async:false
+		});
+	 });
+	 // 触发上面注册的函数
+	 $("#area_id_first").change();
+	 $("#first_level_problem").change(function(){
+	 	var parent_id = parseInt($("#first_level_problem").val());
+		var url = "/problem/search";
+		var data = {'parent_id':parent_id}
+	        jQuery.ajax({
+			type: 'GET',
+			url: url,
+			data: data,
+			success: second_level_load,
+			error: error,
+			dataType: 'json',
+			async:false
+		});
+	 });
+	 // 触发上面注册的函数
+	 $("#first_level_problem").change();
+	 $("#second_level_problem").change(function(){
+	 	var parent_id = parseInt($("#second_level_problem").val());
+		var url = "/problem/search";
+		var data = {'parent_id':parent_id}
+	        jQuery.ajax({
+			type: 'GET',
+			url: url,
+			data: data,
+			success: third_level_load,
+			error: error,
+			dataType: 'json',
+			async:false
+		});
+	 });
+	 // 触发上面注册的函数
+	 $("#second_level_problem").change();
+	 
+	 //　当用户名输入框内容改变
+	 $("#realname").change(function(){
+	 	realname_blur();
+	 	recommend_engineer();
+	 });
+	 
+	 // 当区域改变时，推荐工程师改变
+	 $("#area_id").change(recommend_engineer);
+	 $("#area_id").change();
+	 
+});
+</script>

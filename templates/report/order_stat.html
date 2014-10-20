@@ -1,0 +1,25 @@
+<!-- content starts -->	
+<div class="row-fluid report_chart">
+			{% for item in chart_list %}
+				<!-- 一个图表开始 -->
+				<div class="box span4">
+					<div class="box-header well" data-original-title="">
+						<h2><i class="icon-list-alt"></i> {{item.title}}</h2>
+						<div class="box-icon">
+							<!--
+							<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+							<a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+							-->
+						</div>
+					</div>
+					<div class="box-content">
+						<div style="height:313px" class="pie_chart" keys_desc="{{item.keys_desc}}" keys_data="{{item.keys_data}}"></div>
+					</div>
+				</div><!-- 一个图表结束 -->
+				{% ifequal forloop.counter 3 %}
+					</div>
+					<div class="row-fluid report_chart">
+				{%endifequal%}
+			{% endfor %}
+</div>	
+<!-- content ends -->

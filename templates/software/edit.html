@@ -1,0 +1,65 @@
+<!-- content starts -->	
+	<div>
+		<ul class="breadcrumb">
+			<li>
+				<a href="#">工作台</a> <span class="divider">/</span>
+			</li>
+			<li>
+				<a href="#">软件管理</a>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="row-fluid sortable">
+			<div class="box span12">
+				<div class="box-header well" data-original-title>
+					<h2><i class="icon-edit"></i> 编辑软件信息</h2>
+				</div>
+				<div class="box-content">
+					<form class="form-horizontal" method="post" action="{% url software_edit software.id %}" onsubmit="return validateCallback(this);">
+						<fieldset>
+							<div class="control-group">
+								<label class="control-label">简称<span style="color:#f00">*</span></label>
+								<div class="controls">
+									<input class="input-large required" type="text" name="short_name" value="{{software.short_name}}"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">全名称<span style="color:#f00">*</span></label>
+								<div class="controls">
+									<input class="input-large required" type="text" name="full_name" value="{{software.full_name}}"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">许可证数量<span style="color:#f00">*</span></label>
+								<div class="controls">
+									<input class="input-mini digits" type="text" name="license_count" value="{{software.license_count}}"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">备注</label>
+								<div class="controls">
+									<textarea class="textarea_std" name="comment">{{software.comment}}</textarea>
+								</div>
+							</div>
+						  <div class="form-actions">
+							<button type="submit" class="btn btn-primary">保存</button>
+							<button class="btn" onclick ="return httpRedirectAjax('{% url software_index %}')">取消</button>
+						  </div>
+						</fieldset>
+					 </form>
+				
+				</div>
+			</div><!--/span-->
+		
+		</div><!--/row-->
+<!-- content ends -->
+
+<script language="JavaScript" type="text/javascript">
+//----------- start ---------------
+$(document).ready(function(){
+	 //校验
+	 $("form").validate();
+
+});
+</script>

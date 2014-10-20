@@ -1,0 +1,94 @@
+<!-- content starts -->	
+	<div>
+		<ul class="breadcrumb">
+			<li>
+				<a href="#">IT项目管理</a> <span class="divider">/</span>
+			</li>
+			<li>
+				<a href="#">IT项目</a>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="row-fluid sortable">
+			<div class="box span12">
+				<div class="box-header well" data-original-title>
+					<h2><i class="icon-edit"></i> 编辑项目</h2>
+				</div>
+				<div class="box-content">
+					<form class="form-horizontal" method="post" action="{% url ittask_sedit task.id %}" onsubmit="return validateCallback(this);">
+						<fieldset>
+							<div class="control-group">
+								<label class="control-label">主题<span style="color:#f00">*</span></label>
+								<div class="controls">
+									<input class="input-large required" type="text" name="subject" value="{{task.subject}}" readonly/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">内容</label>
+								<div class="controls">
+									<textarea class="textarea_std" name="content" readonly>{{task.content}}</textarea>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">项目负责人<span style="color:#f00">*</span></label>
+								<div class="controls">
+									<input class="input-large required" type="text" value="{{task.director.realname}}" readonly/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">项目实施人<span style="color:#f00">*</span></label>
+								<div class="controls">
+									<select multiple class="required" name="executors" id="executors">
+										{% for staff in staff_list %}
+							      			<option value ="{{ staff.id }}" 
+							      			{% if staff.id in selected_id_list %}
+							      				selected
+							      			{% endif %}
+							      			>{{ staff.realname }}</option>
+							      		{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">计划完成时间</label>
+								<div class="controls">
+									<input type="text" name="plan_finish_time" readonly value="{{task.plan_finish_time|date:"Y-m-d"}}"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">更新频率</label>
+								<div class="controls">
+									<select name="interval" disabled>
+										{% for key,value in update_period_list %}
+							      			<option value ="{{ key }}"
+							      				{% ifequal task.interval key %}
+							      					selected
+							      				{% endifequal %}
+							      			>{{ value }}</option>
+							      		{% endfor %}
+								  	</select>
+								</div>
+							</div>
+						  <div class="form-actions">
+							<button type="submit" class="btn btn-primary">保存</button>
+							<button class="btn" onclick ="return httpRedirectAjax('{% url ittask_index %}')">取消</button>
+						  </div>
+						</fieldset>
+					 </form>
+				
+				</div>
+			</div><!--/span-->
+		
+		</div><!--/row-->
+<!-- content ends -->
+
+<script language="JavaScript" type="text/javascript">
+//----------- start ---------------
+$(document).ready(function(){
+	// 校验
+	$("form").validate();
+	// 实施人
+	$("#executors").chosen({no_results_text: "没有找到",search_contains:true}); 
+});
+</script>

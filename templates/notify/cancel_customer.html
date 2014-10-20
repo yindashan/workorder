@@ -1,0 +1,181 @@
+<html>
+  <head>
+    <meta content="text/html; charset=gbk" http-equiv="content-type">
+    <title>工单关闭通知</title>
+  </head>
+  <body style="  background-color: #ECECEC;tab-interval:21.0pt" lang="ZH-CN" link="#000066"
+    vlink="#000066">
+    <div class="WordSection1">
+      <div align="center">
+        <table class="MsoNormalTable" style="width:525.0pt;mso-cellspacing:1.5pt;mso-yfti-tbllook:1184;mso-padding-alt:
+   0cm 0cm 0cm 0cm" border="0" cellpadding="0" width="700">
+          <tbody>
+            <tr style="mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes">
+              <td style="padding:0cm 0cm 0cm 0cm" valign="top">
+                <table class="MsoNormalTable" style="width:100.0%;mso-cellspacing:0cm;mso-yfti-tbllook:
+     1184;mso-padding-alt:0cm 0cm 0cm 0cm" border="0" cellpadding="0" cellspacing="0"
+                  width="100%">
+                  <tbody>
+                    <tr style="mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes;
+      height:42.0pt">
+                      <td style="width:116.25pt;padding:0cm 0cm 0cm 0cm;
+      height:42.0pt" valign="bottom" width="155">
+                        <p class="MsoNormal" style="margin:0cm;margin-bottom:.0001pt"><span
+                            style="font-size:11.0pt;font-family:&quot;微软雅黑&quot;,&quot;sans-serif&quot;;
+      color:navy;mso-no-proof:yes" lang="EN-US"></span><span style="font-size:
+      11.0pt;font-family:&quot;微软雅黑&quot;,&quot;sans-serif&quot;;color:navy" lang="EN-US"><o:p></o:p></span></p>
+                        <br>
+                      </td>
+                      <td style="padding:0cm 0cm 0cm 0cm;height:42.0pt" valign="bottom">
+                        <p class="MsoNormal" style="margin: 0cm 0cm 12pt; text-align: right; line-height: 10.5pt; word-break: break-all;"><span
+                            style="font-size: 8.5pt; font-family: &quot;微软雅黑&quot;,&quot;sans-serif&quot;;">&nbsp;
+                            工单号</span><span style="font-size: 8.5pt; font-family: &quot;微软雅黑&quot;,&quot;sans-serif&quot;;"></span><span
+                            style="font-size:8.5pt;font-family:&quot;Lucida Sans&quot;,&quot;sans-serif&quot;;
+      color:#0088CC"> </span><span style="font-size: 8.5pt; font-family: &quot;Lucida Sans&quot;,&quot;sans-serif&quot;; color: #000066;"
+                            lang="EN-US">{{order.case_number}}</span><span style="font-size:8.5pt;font-family:&quot;Lucida Sans&quot;,&quot;sans-serif&quot;;
+      color:#0088CC" lang="EN-US"> </span><span style="font-size:8.5pt;
+      font-family:&quot;Lucida Sans&quot;,&quot;sans-serif&quot;;color:navy" lang="EN-US">&nbsp;|&nbsp;
+                            </span>
+                            <span style="font-size:8.5pt;font-family:&quot;微软雅黑&quot;,&quot;sans-serif&quot;;color:black">
+                            关闭时间</span>
+                            <span style="font-size:8.5pt;font-family:&quot;微软雅黑&quot;,&quot;sans-serif&quot;;color:#000066;">
+                            {{ order.close_time|date:"Y-m-d H:i" }}</span></p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p class="MsoNormal" style="margin:0cm;margin-bottom:.0001pt"><span
+                    style="font-size:2.0pt;font-family:&quot;微软雅黑&quot;,&quot;sans-serif&quot;;
+    color:navy" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+                <table class="MsoNormalTable" style="width:100.0%;mso-cellspacing:0cm;background:white;
+     border-top:#E1E1E1;border-left:#CECECE;border-bottom:#B4B4B4;border-right:     #CECECE;border-style:solid;border-width:1.0pt;mso-yfti-tbllook:1184;     mso-padding-alt:0cm 0cm 0cm 0cm;-webkit-border-radius: 7px;-moz-border-radius: 7px;     border-radius: 7px;-moz-box-shadow: 0px 1px 1px #b4b4b4;-webkit-box-shadow: 0px 1px 1px #b4b4b4;     box-shadow: 0px 1px 1px #b4b4b4"
+                  border="1" cellpadding="0" cellspacing="0" width="100%">
+                  <tbody>
+                    <tr style="mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes">
+                      <td style="border:none;padding:0cm 0cm 0cm 0cm" valign="top">
+                        <div align="center">
+                          <table class="MsoNormalTable" style="width:100.0%;mso-cellspacing:0cm;mso-yfti-tbllook:
+       1184;mso-padding-alt:0cm 0cm 0cm 0cm" border="0" cellpadding="0" cellspacing="0"
+                            width="100%">
+                            <tbody>
+                              <tr style="mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes">
+                                <td style="padding: 16.5pt; text-align: center; font-size: x-large; font-family: 微软雅黑,&quot;Times New Roman&quot;;"
+                                  valign="top"> 感谢使用IT工单系统<br>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <p class="MsoNormal" style="margin:0cm;margin-bottom:.0001pt"><span
+                            style="font-size:11.0pt;font-family:&quot;微软雅黑&quot;,&quot;sans-serif&quot;;
+      color:navy;mso-no-proof:yes" lang="EN-US"></span><span style="font-size:11.0pt;font-family:&quot;微软雅黑&quot;,&quot;sans-serif&quot;;
+      color:navy" lang="EN-US"><o:p></o:p></span></p>
+                        <div align="center">
+                          <table class="MsoNormalTable" style="width:100.0%;mso-cellspacing:0cm;mso-yfti-tbllook:
+       1184;mso-padding-alt:0cm 0cm 0cm 0cm" border="0" cellpadding="0" cellspacing="0"
+                            width="100%">
+                            <tbody>
+                              <tr style="mso-yfti-irow:1;mso-yfti-lastrow:yes">
+                                <td style="padding:0cm 0cm 0cm 0cm" valign="top">
+                                  <div align="center">
+                                    <table class="MsoNormalTable" style="width:93.56%;mso-cellspacing:0cm;mso-yfti-tbllook:
+         1184;mso-padding-alt:0cm 0cm 0cm 0cm" border="0" cellpadding="0" cellspacing="0"
+                                      width="93%">
+                                      <tbody>
+                                        <tr style="mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:
+          yes;height:122.75pt">
+                                          <td style="padding: 9pt; height: 122.75pt; font-family: 微软雅黑,&quot;Times New Roman&quot;; font-size: small;"
+                                            valign="top"> 您好：<br>
+                                            <br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            您的工单（工单号:{{order.case_number}}）已经被{{ user.username }}取消，取消原因如下：<br>
+                                            {{ reason }}
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                  <div align="center">
+                                    <table class="MsoNormalTable" style="width:100.0%;mso-cellspacing:0cm;mso-yfti-tbllook:
+         1184;mso-padding-alt:0cm 0cm 0cm 0cm" border="0" cellpadding="0" cellspacing="0"
+                                      width="100%">
+                                      <tbody>
+                                        <tr style="mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:
+          yes;height:11.25pt">
+                                          <td style="padding:0cm 0cm 0cm 0cm;height:11.25pt"
+                                            valign="top">
+                                            <p class="MsoNormal" style="margin:0cm;margin-bottom:.0001pt"><span
+                                                style="font-size:11.0pt;font-family:&quot;微软雅黑&quot;,&quot;sans-serif&quot;;
+          color:navy;mso-no-proof:yes" lang="EN-US"></span><span style="font-size:11.0pt;font-family:&quot;微软雅黑&quot;,&quot;sans-serif&quot;;
+          color:navy" lang="EN-US"><o:p></o:p></span></p>
+                                            <br>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                  <p class="MsoNormal" style="margin:0cm;margin-bottom:.0001pt"><span
+                                      style="font-size:11.0pt;font-family:&quot;微软雅黑&quot;,&quot;sans-serif&quot;;
+        color:navy" lang="EN-US"><o:p></o:p></span></p>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <p class="MsoNormal" style="margin: 0cm 0cm 0.0001pt; text-align: right;"><span
+                            style="font-size:11.0pt;font-family:&quot;微软雅黑&quot;,&quot;sans-serif&quot;;
+      color:navy" lang="EN-US"><o:p><span style="color: black;"><span style="font-size: 8.5pt; font-family: &quot;微软雅黑&quot;,&quot;sans-serif&quot;;">
+                                  服务热线：<span style="color: #000066;" lang="EN-US"><span
+                                      style="text-decoration: none;">3600</span></span></span><span
+                                  style="font-size: 8.5pt; font-family: &quot;微软雅黑&quot;,&quot;sans-serif&quot;;"
+                                  lang="EN-US">&nbsp; |&nbsp; </span><span style="font-size: 8.5pt; font-family: &quot;微软雅黑&quot;,&quot;sans-serif&quot;;">
+                                  工单系统：<span lang="EN-US"><a href="http://ithelp.autonavi.com/"><span
+                                        style="text-decoration: none;">ithelp.autonavi.com</span></a></span></span><span
+                                  style="font-size: 8.5pt; font-family: &quot;微软雅黑&quot;,&quot;sans-serif&quot;;"
+                                  lang="EN-US">&nbsp; |&nbsp; </span><span style="font-size: 8.5pt; font-family: &quot;微软雅黑&quot;,&quot;sans-serif&quot;;">
+                                  常见问题：<span lang="EN-US"><a href="http://it.autonavi.com/"><span
+                                        style="text-decoration: none;">it.autonavi.com</span></a></span></span>&nbsp;
+                                </span></o:p></span></p>
+                        <div align="center">
+                          <table class="MsoNormalTable" style="width:100.0%;mso-cellspacing:0cm;mso-yfti-tbllook:
+       1184;mso-padding-alt:0cm 0cm 0cm 0cm" border="0" cellpadding="0" cellspacing="0"
+                            width="100%">
+                            <tbody>
+                              <tr style="mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes;
+        height:24.0pt">
+                                <td style="padding:0cm 0cm 0cm 0cm;height:24.0pt"
+                                  valign="top">
+                                  <address> </address>
+                                  &nbsp; </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <table class="MsoNormalTable" style="width:100.0%;mso-cellspacing:0cm;mso-yfti-tbllook:
+     1184;mso-padding-alt:0cm 0cm 0cm 0cm" border="0" cellpadding="0" cellspacing="0"
+                  width="100%">
+                  <tbody>
+                    <tr style="mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes;
+      height:7.5pt">
+                      <td style="padding:0cm 0cm 0cm 0cm;height:7.5pt" valign="top">
+                        <p class="MsoNormal" style="margin:0cm;margin-bottom:.0001pt;mso-line-height-alt:
+      7.5pt"><span style="font-size:11.0pt;font-family:&quot;微软雅黑&quot;,&quot;sans-serif&quot;;
+      color:navy;mso-no-proof:yes" lang="EN-US"></span><span style="font-size:11.0pt;font-family:&quot;微软雅黑&quot;,&quot;sans-serif&quot;;
+      color:navy" lang="EN-US"><o:p></o:p></span></p>
+                        <br>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

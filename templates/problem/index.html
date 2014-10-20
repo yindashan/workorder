@@ -1,0 +1,40 @@
+<!-- content starts -->	
+	<div>
+		<ul class="breadcrumb">
+			<li>
+				<a href="#">配置管理</a> <span class="divider">/</span>
+			</li>
+			<li>
+				<a href="#">问题类目</a>
+			</li>
+		</ul>
+	</div>
+	<div class="row-fluid sortable">
+		<div class="box span12">
+			<div class="box-header well" data-original-title>
+				<h2><i class="icon-list"></i> 问题类目树</h2>
+			</div>
+			<div class="box-content">
+				<ul id="show_tree"></ul>  	
+			</div>
+		</div>
+	</div>	
+<!-- content ends -->
+<script language="JavaScript" type="text/javascript">
+//----------- start ---------------
+$(document).ready(function(){
+	// 加载展示节点对应的json字符串
+	$("#show_tree").tree({  
+		url:'{% url problem_tree %}',  
+		method:'GET',
+		//onClick: clickNode,
+		onContextMenu:open_context_menu
+	});
+	// 点击右键菜单将会触发的动作
+	$("#mm").menu({onClick:context_menu_click});
+	// 关闭节点配置面板
+	$("button.node_cancel").click(clear_node_div); 
+	// 按下node_confirm 按钮
+	$("#node_confirm").click(node_confirm_click);
+});
+</script>		

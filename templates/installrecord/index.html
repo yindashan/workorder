@@ -1,0 +1,121 @@
+<!-- content starts -->	
+	<div>
+		<ul class="breadcrumb">
+			<li>
+				<a href="#">工作台</a> <span class="divider">/</span>
+			</li>
+			<li>
+				<a href="#">软件安装记录</a>
+			</li>
+		</ul>
+	</div>
+	<div class="row-fluid sortable">
+		<div class="box span12">
+			<div class="box-header well" data-original-title>
+				<h2><i class="icon-list"></i> 软件安装记录管理</h2>
+				<div class="box-icon">
+					<a href="{% url installrecord_add %}" title="添加安装记录" onclick="return executeMenu(this);" class="btn btn-round"><i class="icon-plus"></i></a>
+				</div>
+			</div>
+			<div class="box-content" id="box-content">
+				<form action="{% url installrecord_search %}" id="search_form"  onsubmit="return searchCallback();">
+						<input type="hidden" name="need_area_check" value="True"/>
+						<div class="row-fluid">
+							<div class="span4">
+								<div class="dataTables_filter">
+									<label>
+										软件名称:&nbsp;&nbsp;
+										<select name="sw_id" >
+											<option value="">请选择</option>
+											{% for sw in sw_list %}
+								      	 		<option value ="{{ sw.id }}">{{ sw.short_name }}</option>
+									  		{% endfor%}
+										</select>
+									</label>
+								</div>
+							</div>
+							<div class="span4">
+								<div class="dataTables_filter">
+									<label>
+										用户姓名:&nbsp;&nbsp;
+										<input type="text" name="username"/>
+									</label>
+								</div>
+							</div>
+							<div class="span4">
+								<div class="dataTables_length">
+									<label>
+										安装人员:&nbsp;&nbsp;
+										<input type="text" name="installer"/>
+									</label>
+								</div>
+							</div>
+						</div> <!-- row end -->
+						<div class="row-fluid">
+							<div class="span4">
+								<div class="dataTables_filter">
+									<label>
+										<span>开始时间:&nbsp;&nbsp</span>
+										<input type="text" name="start_time" class="datepicker" readonly/>
+										&nbsp;<i class="icon-question-sign" data-toggle="tooltip" data-original-title="创建时间的起始时间"></i>
+									</label>
+								</div>
+							</div>
+							<div class="span4">
+								<div class="dataTables_filter">
+									<label>
+										<span>结束时间:&nbsp;&nbsp</span>
+										<input type="text" name="end_time" class="datepicker" readonly/>
+										&nbsp;<i class="icon-question-sign" data-toggle="tooltip" data-original-title="创建时间的终止时间"></i>
+									</label>
+								</div>
+							</div>
+							<div class="span4">
+								<div class="dataTables_length">
+									<label>
+										部门:&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<input type="text" name="department"/>
+									</label>
+								</div>
+							</div>
+						</div> <!-- row end -->
+						<div class="row-fluid">
+							<div class="span4">
+								<div class="dataTables_length">
+									<label>
+										机器SN号:&nbsp;
+										<input type="text" name="sn_number"/>
+									</label>
+								</div>
+							</div>
+							<div class="span4">
+								<div class="dataTables_length">
+									<label>
+										MAC地址:&nbsp;
+										<input type="text" name="mac_address"/>
+									</label>
+								</div>
+							</div>
+							<div class="span4">
+								<div class="dataTables_filter">
+									<button type="submit" class="btn btn-small btn-info" id="search_btn">检索</button>
+								</div>
+							</div>
+						</div> <!-- row end -->
+					</form>
+				
+			</div>
+		</div>
+	</div>	
+<!-- content ends -->
+
+<script language="JavaScript" type="text/javascript">
+
+//----------- start ---------------
+$(document).ready(function(){
+	 // 初始化 tooltip
+	 $('.icon-question-sign').tooltip();
+	 // 触发一次搜索,很重要
+	 $("#search_btn").click();
+});
+</script>

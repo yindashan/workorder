@@ -1,0 +1,23 @@
+<!-- content starts -->	
+<div class="row-fluid">
+	<div class="alert alert-info">
+	
+		{% ifequal message 1 %}
+			Mac 地址不能为空
+		{% endifequal %}
+		
+		{% ifequal message 2 %}
+			Mac 地址书写有误
+		{% endifequal %}
+		
+		{% ifequal message 3 %}
+			此 MAC 地址已注册，可以连接公司无线网络
+		{% endifequal %}
+		
+		{% ifequal message 4 %}
+			此 MAC 地址未注册，请上<a href="http://cms.autonavi.com" target="_blank"> A8 </a>提交申请《公司无线网络入网申请表》
+		{% endifequal %}
+		
+	</div>
+<div>
+<!-- content ends -->

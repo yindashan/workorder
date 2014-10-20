@@ -1,0 +1,77 @@
+<!-- content starts -->	
+	<div>
+		<ul class="breadcrumb">
+			<li>
+				<a href="#">工作台</a> <span class="divider">/</span>
+			</li>
+			<li>
+				<a href="#">软件管理</a>
+			</li>
+		</ul>
+	</div>
+	<div class="row-fluid sortable">
+		<div class="box span12">
+			<div class="box-header well" data-original-title>
+				<h2><i class="icon-list"></i> 软件列表</h2>
+			</div>
+			<div class="box-content">
+				<table class="table table-striped table-bordered bootstrap-datatable datatable">
+					<thead>
+						<tr>
+							<th>简称</th>
+							<th>全名称</th>
+							<th>许可证</th>
+							<th>变更时间</th>
+							<th>操作</th>
+						</tr>
+					</thead>   
+					<tbody>
+						{% for item in software_list %}
+						<tr>
+							<td>{{ item.short_name }}</td>
+							<td>{{ item.full_name }}</td>
+							<td>{% if item.license_count > 0 %}
+									有
+								{% else %}
+									无
+								{% endif %}
+							</td>
+							<td>{{ item.modify_time|date:"Y-m-d" }}</td>
+							<td class="center" style="width:100px">
+								{% if item.license_count > 0 %}
+									<a class="btn btn-small btn-primary" href="{% url software_apply item.id %}" onclick="return executeMenu(this);" >
+										<i class="icon-edit icon-white"></i>  
+										申请                                           
+									</a>
+								{% else %}
+									<a class="btn btn-small btn-primary disabled" >
+										<i class="icon-edit icon-white"></i>  
+										申请                                           
+									</a>
+								{% endif %}
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				
+				<!-- 展示记录数,上一页，下一页等等 -->
+				<div class="row-fluid">
+					<div class="span12">
+						<div class="dataTables_info">显示从{{ software_list.start_index }}到{{ software_list.end_index }} 总共{{ software_list.paginator.count }}条记录</div>
+					</div>
+					<div class="span12 center">
+						<div class="dataTables_paginate paging_bootstrap pagination">
+							<ul currPage="{{ software_list.number }}" totalPage="{{ software_list.paginator.num_pages }}" >
+								<li class="prev"><a href="{% url software_customer_index %}" onclick="return pageJump(this);">上一页</a></li>
+								<li><a href="#">{{ software_list.number }}</a></li>
+								<li class="next"><a href="{% url software_customer_index %}" onclick="return pageJump(this);">下一页</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>	
+<!-- content ends -->			
